@@ -3,92 +3,80 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Falling Words Typing Game</title>
+  <title>Photo Gallery</title>
   <style>
     body {
-      background: #111;
-      color: #fff;
       font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
       text-align: center;
-      overflow: hidden;
+      padding: 20px;
     }
     h1 {
-      margin: 20px;
+      color: #333;
+      margin-bottom: 20px;
     }
-    #gameArea {
-      position: relative;
-      width: 100%;
-      height: 80vh;
-      border: 2px solid #fff;
-      margin: auto;
-      overflow: hidden;
-      background: #222;
-    }
-    .word {
-      position: absolute;
-      font-size: 1.5em;
-      color: #00ffcc;
-    }
-    #inputBox {
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
       margin-top: 20px;
-      padding: 10px;
-      font-size: 1.2em;
-      border-radius: 8px;
-      border: none;
-      width: 250px;
-      text-align: center;
     }
-    #score {
-      margin-top: 15px;
-      font-size: 1.3em;
+    .photo {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .photo:hover {
+      transform: scale(1.05);
+    }
+    .photo img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+    .caption {
+      padding: 10px;
+      font-size: 1em;
+      color: #444;
+      background: #ffe5d9;
     }
   </style>
 </head>
 <body>
-  <h1>🧠 Falling Words Typing Game</h1>
-  <div id="gameArea"></div>
-  <input type="text" id="inputBox" placeholder="Type word here...">
-  <div id="score">Score: 0</div>
+  <h1>My Photo Gallery</h1>
+  <div class="gallery">
+    <div class="photo">
+      <img src="https://picsum.photos/id/1015/300/150" alt="Beach" width="500" height="600">
+      <div class="caption">Sunny Beach</div>
+    </div>
+    <div class="photo">
+      <img src="https://picsum.photos/id/1016/300/150" alt="Mountains" width="500"  height="600">
+      <div class="caption">Snowy Mountains</div>
+    </div>
+    <div class="photo">
+      <img src="https://picsum.photos/id/1011/300/150" alt="City" width="500" height="600">
+      <div class="caption">City Lights</div>
+    </div>
+    <div class="photo">
+      <img src="https://picsum.photos/id/1020/300/150" alt="Forest" width="500" height="600">
+      <div class="caption">Green Forest</div>
+    </div>
+    <div class="photo"
+      <img src="https://picsum.photos/id/1003/300/150" alt="Desert" width="500" height="600">
+      <div class="caption">Golden Desert</div>
+    </div>
+  </div>
 
   <script>
-    const words = ["apple","banana","orange","computer","keyboard","javascript","coding","speed","brain","game","github","html","css"];
-    const gameArea = document.getElementById("gameArea");
-    const inputBox = document.getElementById("inputBox");
-    const scoreDisplay = document.getElementById("score");
-    let score = 0;
-
-    function createWord() {
-      const wordText = words[Math.floor(Math.random() * words.length)];
-      const wordElement = document.createElement("div");
-      wordElement.classList.add("word");
-      wordElement.innerText = wordText;
-      wordElement.style.left = Math.random() * (gameArea.offsetWidth - 100) + "px";
-      wordElement.style.top = "0px";
-      gameArea.appendChild(wordElement);
-
-      let fallInterval = setInterval(() => {
-        let currentTop = parseInt(wordElement.style.top);
-        if (currentTop > gameArea.offsetHeight - 50) {
-          clearInterval(fallInterval);
-          alert("💥 Game Over! Final Score: " + score);
-          document.location.reload();
-        } else {
-          wordElement.style.top = currentTop + 2 + "px";
-        }
-      }, 50);
-
-      inputBox.addEventListener("keyup", function(e) {
-        if (inputBox.value === wordText) {
-          clearInterval(fallInterval);
-          gameArea.removeChild(wordElement);
-          inputBox.value = "";
-          score++;
-          scoreDisplay.innerText = "Score: " + score;
-        }
+    // Example: Show alert when clicking an image
+    const photos = document.querySelectorAll(".photo img");
+    photos.forEach(photo => {
+      photo.addEventListener("click", () => {
+        alert("You clicked on: " + photo.alt);         
       });
-    }
-
-    setInterval(createWord, 3000);
+    });
   </script>
 </body>
 </html>
