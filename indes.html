@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Falling Words Typing Game</title>
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
+    h1 {
+      margin: 20px;
+    }
+    #gameArea {
+      position: relative;
+      width: 100%;
+      height: 80vh;
+      border: 2px solid #fff;
+      margin: auto;
+      overflow: hidden;
+      background: #222;
+    }
+    .word {
+      position: absolute;
+      font-size: 1.5em;
+      color: #00ffcc;
+    }
+    #inputBox {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 1.2em;
+      border-radius: 8px;
+      border: none;
+      width: 250px;
+      text-align: center;
+    }
+    #score {
+      margin-top: 15px;
+      font-size: 1.3em;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧠 Falling Words Typing Game</h1>
+  <div id="gameArea"></div>
+  <input type="text" id="inputBox" placeholder="Type word here...">
+  <div id="score">Score: 0</div>
+
+  <script>
+    const words = ["apple","banana","orange","computer","keyboard","javascript","coding","speed","brain","game","github","html","css"];
+    const gameArea = document.getElementById("gameArea");
+    const inputBox = document.getElementById("inputBox");
+    const scoreDisplay = document.getElementById("score");
+    let score = 0;
+
+    function createWord() {
+      const wordText = words[Math.floor(Math.random() * words.length)];
+      const wordElement = document.createElement("div");
+      wordElement.classList.add("word");
+      wordElement.innerText = wordText;
+      wordElement.style.left = Math.random() * (gameArea.offsetWidth - 100) + "px";
+      wordElement.style.top = "0px";
+      gameArea.appendChild(wordElement);
+
+      let fallInterval = setInterval(() => {
+        let currentTop = parseInt(wordElement.style.top);
+        if (currentTop > gameArea.offsetHeight - 50) {
+          clearInterval(fallInterval);
+          alert("💥 Game Over! Final Score: " + score);
+          document.location.reload();
+        } else {
+          wordElement.style.top = currentTop + 2 + "px";
+        }
+      }, 50);
+
+      inputBox.addEventListener("keyup", function(e) {
+        if (inputBox.value === wordText) {
+          clearInterval(fallInterval);
+          gameArea.removeChild(wordElement);
+          inputBox.value = "";
+          score++;
+          scoreDisplay.innerText = "Score: " + score;
+        }
+      });
+    }
+
+    setInterval(createWord, 3000);
+  </script>
+</body>
+</html>
